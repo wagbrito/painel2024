@@ -1,0 +1,6 @@
+streamlit
+st-gsheets-connection
+pandas
+gspread
+plotly
+plotly.express
