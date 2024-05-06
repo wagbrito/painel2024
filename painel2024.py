@@ -3,6 +3,7 @@ import streamlit as st
 import gspread
 import plotly.express as px
 import plotly.graph_objects as go
+import numpy as np
 
 # Acessando as credenciais do secrets.toml
 creds = st.secrets["gcp"]
@@ -53,6 +54,10 @@ if 'tutorado' in locals():
 
     # Lista para armazenar as disciplinas com valores não nulos para o aluno atual
     disciplinas_com_valores = []
+
+    # Substitua os valores nulos por NaN
+    df1.replace("", np.nan, inplace=True)
+    df1.replace(" ", np.nan, inplace=True)
 
     # Verifica se há valores não nulos para cada disciplina do aluno atual
     for disciplina in disciplinas:
