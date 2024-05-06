@@ -5,6 +5,9 @@ import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
 
+#Título no navegador
+st.set_page_config(page_title = "Painel - PEI Paula Santos", page_icon=':bar_chart:', layout="wide") 
+
 # Acessando as credenciais do secrets.toml
 creds = st.secrets["gcp"]
 
