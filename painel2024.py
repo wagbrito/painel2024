@@ -64,7 +64,7 @@ if 'tutorado' in locals():
         fig.add_trace(go.Bar(x=disciplinas, y=notas_aluno1, name='1º Bimestre', text=notas_aluno1, textposition='auto'))
 
         # Exibe o gráfico
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
         st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
 
     # Resultado da Prova Paulista
