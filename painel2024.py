@@ -43,26 +43,26 @@ with st.sidebar:
 
 # Verifica se um tutorado foi selecionado
 if 'tutorado' in locals():
-  st.title("NOTAS - TUTORADO(A)")
+      st.title("NOTAS - TUTORADO(A)")
 
-  # Obter todas as disciplinas disponíveis
-  disciplinas_disponiveis = df1.columns[df1.columns.str.contains('\d+$')].tolist()
+      # Obter todas as disciplinas disponíveis
+      disciplinas_disponiveis = df1.columns[df1.columns.str.contains('\d+$')].tolist()
 
-  # Filtrar apenas as disciplinas presentes no DataFrame do aluno
-  disciplinas = [disciplina for disciplina in disciplinas_disponiveis if disciplina in df1.columns]
+      # Filtrar apenas as disciplinas presentes no DataFrame do aluno
+      disciplinas = [disciplina for disciplina in disciplinas_disponiveis if disciplina in df1.columns]
 
-  # Lista para armazenar as disciplinas com valores não nulos para o aluno atual
-  disciplinas_com_valores = []
+      # Lista para armazenar as disciplinas com valores não nulos para o aluno atual
+      disciplinas_com_valores = []
 
-  # Verifica se há valores não nulos para cada disciplina do aluno atual
-  for disciplina in disciplinas:
-    if df1.loc[df1['Aluno'] == tutorado, disciplina].notnull().all():
-      disciplinas_com_valores.append(disciplina)
+      # Verifica se há valores não nulos para cada disciplina do aluno atual
+      for disciplina in disciplinas:
+        if df1.loc[df1['Aluno'] == tutorado, disciplina].notnull().all():
+          disciplinas_com_valores.append(disciplina)
 
-  if disciplinas_com_valores:
-    # Filtrar as notas do aluno atual
-    notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, disciplinas_com_valores]
-    notas_aluno1 = notas_df_aluno1.values.tolist()[0]
+      if disciplinas_com_valores:
+        # Filtrar as notas do aluno atual
+            notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, disciplinas_com_valores]
+            notas_aluno1 = notas_df_aluno1.values.tolist()[0]
 
     # Cria o gráfico
     fig = go.Figure()
