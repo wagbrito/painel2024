@@ -51,17 +51,10 @@ if 'tutorado' in locals():
     # Filtrar apenas as disciplinas presentes no DataFrame do aluno
     disciplinas = [disciplina for disciplina in disciplinas_disponiveis if disciplina in df1.columns]
 
-    # Cria um DataFrame temporário contendo apenas as disciplinas com valores não nulos para o aluno atual
-    dados_grafico = pd.DataFrame()
+    # Imprimir as disciplinas e seus valores associados para o aluno atual
     for disciplina in disciplinas:
         notas_disciplina = df1.loc[df1['Aluno'] == tutorado, disciplina]
-        if notas_disciplina.notnull().any():
-            dados_grafico[disciplina] = notas_disciplina
-
-    if not dados_grafico.empty:
-        # Extrai os nomes das disciplinas e as notas do DataFrame temporário
-        disciplinas_com_valores = dados_grafico.columns.tolist()
-        notas_aluno1 = dados_grafico.values[0]
+        st.write(f"{disciplina}: {notas_disciplina.values.tolist()}")
 
         # Cria o gráfico
         fig = go.Figure()
