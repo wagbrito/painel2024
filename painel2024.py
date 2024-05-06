@@ -44,6 +44,7 @@ with st.sidebar:
 
 # Verifica se um tutorado foi selecionado
 # Verifica se um tutorado foi selecionado
+# Verifica se um tutorado foi selecionado
 if 'tutorado' in locals():
     st.title("NOTAS - TUTORADO(A)")
     
@@ -75,7 +76,12 @@ if 'tutorado' in locals():
     if disciplinas_com_valores:
         # Filtrar as notas do aluno atual
         notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, disciplinas_com_valores]
-        notas_aluno1 = notas_df_aluno1.values.tolist()[0]
+        
+        # Verifica se notas_df_aluno1 não está vazio antes de tentar acessar seus valores
+        if not notas_df_aluno1.empty:
+            notas_aluno1 = notas_df_aluno1.values.tolist()[0]
+        else:
+            notas_aluno1 = []
 
         # Cria o gráfico
         fig = go.Figure()
@@ -84,6 +90,7 @@ if 'tutorado' in locals():
         # Exibe o gráfico
         st.plotly_chart(fig)
         st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
+
 
 
 
