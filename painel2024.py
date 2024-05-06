@@ -76,11 +76,12 @@ if 'tutorado' in locals():
     # Resultado da Prova Paulista
     st.title("PROVA PAULISTA - 2024")
     
-    prova_paulista1 = df2.loc[df2['Aluno'] == tutorado, ['LP1', 'Ing1', 'Mat1', 'Cie1', 'Geo1', 'His1']]
+    prova_paulista1 = df2.loc[df2['Aluno'] == tutorado, ['LP1', 'Ing1', 'Mat1', 'Cie1', 'Geo1', 'His1','Bio1','Qui1','Fis1','Fil1','Fin1']]
     pp1 = prova_paulista1.values.tolist()[0]
 
     # Nomes das colunas
-    nomes_colunas = ['Português (LP1)', 'Inglês (Ing1)', 'Matemática (Mat1)', 'Ciências (Cie1)', 'Geografia (Geo1)', 'História (His1)']
+    nomes_colunas = ['Português (LP1)', 'Inglês (Ing1)', 'Matemática (Mat1)', 'Ciências (Cie1)', 'Geografia (Geo1)', 'História (His1)',
+                     'Biologia (Bio1)','Quimica (Qui1)','Física (Fis1)','Filosofia (Fil1)','Ed. Financeira (Fin1)']
 
     # Divide a tela em duas colunas
     col1, col2 = st.columns(2)
