@@ -28,7 +28,7 @@ tutores_unicos = sorted(set(tutores_unicos_df1).union(tutores_unicos_df2))
 
 #sidebar
 with st.sidebar:
-    st.write("teste")
+    st.write("Paula Santos")
 
     # Adiciona o selectbox do tutor à primeira coluna
     tutor = st.selectbox('Selecione o(a) tutor(a)', tutores_unicos)
@@ -45,22 +45,28 @@ with st.sidebar:
 if 'tutorado' in locals():
     st.title("NOTAS - TUTORADO(A)")
     
-    # Notas Gerais
-    notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, ['LP1', 'Ing1', 'Art1', 'EF1', 'Geo1', 'His1', 'Mat1', 'Oe1', 'Pv1', 'Tec1', 'Cie1', 'Esp1', 'Pe1']]
-    notas_aluno1 = notas_df_aluno1.values.tolist()[0]
-    disciplinas = ['LP1', 'Ing1', 'Art1', 'EF1', 'Geo1', 'His1', 'Mat1', 'Oe1', 'Pv1', 'Tec1', 'Cie1', 'Esp1', 'Pe1']
+    # Obter todas as disciplinas disponíveis
+    disciplinas_disponiveis = df1.columns[df1.columns.str.contains('\d+$')].tolist()
+    
+    # Filtrar apenas as disciplinas presentes no DataFrame do aluno e que possuem valores não nulos
+    disciplinas_com_valores = [disciplina for disciplina in disciplinas_disponiveis if (disciplina in df1.columns) and df1[disciplina].notnull().any()]
 
-    # Cria o gráfico
-    fig = go.Figure()
-    fig.add_trace(go.Bar(x=disciplinas, y=notas_aluno1, name='1º Bimestre'))
+    if disciplinas_com_valores:
+        # Filtrar as notas do aluno atual
+        notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, disciplinas_com_valores]
+        notas_aluno1 = notas_df_aluno1.values.tolist()[0]
 
-    # Exibe o gráfico
-    st.plotly_chart(fig)
-    st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
+        # Cria o gráfico
+        fig = go.Figure()
+        fig.add_trace(go.Bar(x=disciplinas_com_valores, y=notas_aluno1, name='1º Bimestre', text=notas_aluno1, textposition='auto'))
 
-    st.title("PROVA PAULISTA - 2024")
+        # Exibe o gráfico
+        st.plotly_chart(fig)
+        st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
 
     # Resultado da Prova Paulista
+    st.title("PROVA PAULISTA - 2024")
+    
     prova_paulista1 = df2.loc[df2['Aluno'] == tutorado, ['LP1', 'Ing1', 'Mat1', 'Cie1', 'Geo1', 'His1']]
     pp1 = prova_paulista1.values.tolist()[0]
 
