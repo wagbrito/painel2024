@@ -50,19 +50,19 @@ if 'tutorado' in locals():
     st.title("NOTAS - TUTORADO(A)")
     
 #Notas Gerais
-        notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, ['Por1', 'Ing1', 'EF1', 'Art1', 'Geo1', 'His1', 'Mat1', 'Cie1', 'Pe1', 'Pv1', 'Oe1', 'Tec1']]
-        notas_aluno1 = notas_df_aluno1.values.tolist()[0]
-        notas_df_aluno2 = df1.loc[df1['Aluno'] == tutorado, ['Por2', 'Ing2', 'EF2', 'Art2', 'Geo2', 'His2', 'Mat2', 'Cie2', 'Pe2', 'Pv2', 'Oe2', 'Tec2']]
-        notas_aluno2 = notas_df_aluno2.values.tolist()[0]
-        disciplinas = ['Português', 'Inglês', 'Educação Física', 'Arte', 'Geografia', 'História', 'Matemática', 'Ciência', 'Práticas Experimentais', 'Projeto de Vida', 
-                       'Orientação de Estudos', 'Tecnologia']
-        fig = go.Figure()
-        fig.add_trace(go.Bar(x=disciplinas, y=notas_aluno1, name='1º Bimestre'))
-        fig.add_trace(go.Bar(x=disciplinas, y=notas_aluno2, name='2º Bimestre'))
+    notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, ['Por1', 'Ing1', 'EF1', 'Art1', 'Geo1', 'His1', 'Mat1', 'Cie1', 'Pe1', 'Pv1', 'Oe1', 'Tec1']]
+    notas_aluno1 = notas_df_aluno1.values.tolist()[0]
+    notas_df_aluno2 = df1.loc[df1['Aluno'] == tutorado, ['Por2', 'Ing2', 'EF2', 'Art2', 'Geo2', 'His2', 'Mat2', 'Cie2', 'Pe2', 'Pv2', 'Oe2', 'Tec2']]
+    notas_aluno2 = notas_df_aluno2.values.tolist()[0]
+    disciplinas = ['Português', 'Inglês', 'Educação Física', 'Arte', 'Geografia', 'História', 'Matemática', 'Ciência', 'Práticas Experimentais', 'Projeto de Vida', 
+                   'Orientação de Estudos', 'Tecnologia']
+    fig = go.Figure()
+    fig.add_trace(go.Bar(x=disciplinas, y=notas_aluno1, name='1º Bimestre'))
+    fig.add_trace(go.Bar(x=disciplinas, y=notas_aluno2, name='2º Bimestre'))
 
-        # Exibe o gráfico
-        st.plotly_chart(fig)
-        st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
+    # Exibe o gráfico
+    st.plotly_chart(fig)
+    st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
 
     # Resultado da Prova Paulista
     st.title("PROVA PAULISTA - 2024")
