@@ -56,7 +56,7 @@ if 'tutorado' in locals():
 
     if disciplinas:
         # Filtrar as notas do aluno atual
-        notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, disciplinas]
+        notas_df_aluno1 = df1.loc[df1['Aluno'] == disciplinas]
         notas_aluno1 = notas_df_aluno1.values.tolist()[0]
 
         # Cria o gráfico
