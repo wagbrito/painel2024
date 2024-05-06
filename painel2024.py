@@ -43,6 +43,7 @@ with st.sidebar:
         tutorado = st.selectbox('Selecione o(a) tutorado(a)', alunos_do_tutor)
 
 
+# Verifica se um tutorado foi selecionado
 if 'tutorado' in locals():
     st.title("NOTAS - TUTORADO(A)")
     
@@ -52,34 +53,18 @@ if 'tutorado' in locals():
     # Filtrar apenas as disciplinas presentes no DataFrame do aluno
     disciplinas = [disciplina for disciplina in disciplinas_disponiveis if disciplina in df1.columns]
 
-    # Lista para armazenar as disciplinas com valores não nulos para o aluno atual
-    disciplinas_com_valores = []
-
-    # Substitua os valores nulos por NaN
-    df1.replace("", np.nan, inplace=True)
-    df1.replace(" ", np.nan, inplace=True)
-
-    # Imprime os valores únicos em cada coluna do DataFrame
-    for col in df1.columns:
-        print(f"{col}: {df1[col].unique()}")
-
-    # Remove as linhas com valores nulos
-    df1.dropna(subset=disciplinas, inplace=True)
-
-    # Verifica se há valores não nulos para cada disciplina do aluno atual
+    # Imprimir as disciplinas e seus valores associados para o aluno atual
     for disciplina in disciplinas:
-        if df1.loc[df1['Aluno'] == tutorado, disciplina].notnull().any():
-            disciplinas_com_valores.append(disciplina)
+        notas_disciplina = df1.loc[df1['Aluno'] == tutorado, disciplina]
+        st.write(f"{disciplina}: {notas_disciplina.values.tolist()}")
 
-    if disciplinas_com_valores:
-        # Filtrar as notas do aluno atual
-        notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, disciplinas_com_valores]
-        
-        # Verifica se notas_df_aluno1 não está vazio antes de tentar acessar seus valores
-        if not notas_df_aluno1.empty:
-            notas_aluno1 = notas_df_aluno1.values.tolist()[0]
-        else:
-            notas_aluno1 = []
+    # Cria o gráfico
+    fig = go.Figure()
+    fig.add_trace(go.Bar(x=disciplinas, y=notas_disciplina.values.tolist(), name='1º Bimestre', text=notas_disciplina.values.tolist(), textposition='auto'))
+
+    # Exibe o gráfico
+    st.plotly_chart(fig)
+    st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
 
         # Cria o gráfico
         fig = go.Figure()
@@ -88,8 +73,6 @@ if 'tutorado' in locals():
         # Exibe o gráfico
         st.plotly_chart(fig)
         st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
-
-
 
 
     # Resultado da Prova Paulista
