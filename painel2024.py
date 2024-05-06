@@ -46,33 +46,24 @@ with st.sidebar:
 
 
 if 'tutorado' in locals():
-    st.title("NOTAS - TUTORADO(A) - 2024")
-
+    st.title("NOTAS - TUTORADO(A)")
+    
     # Obter todas as disciplinas disponíveis
     disciplinas_disponiveis = df1.columns[df1.columns.str.contains('\d+$')].tolist()
-
+    
     # Filtrar apenas as disciplinas presentes no DataFrame do aluno
     disciplinas = [disciplina for disciplina in disciplinas_disponiveis if disciplina in df1.columns]
 
-    # Se houver disciplinas para o aluno:
     if disciplinas:
         # Filtrar as notas do aluno atual
         notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, disciplinas]
-        valores_nao_nulos = []
+        notas_aluno1 = notas_df_aluno1.values.tolist()[0]
 
-        # Percorrer cada disciplina
-        for disciplina in disciplinas:
-            # Obter os valores da disciplina atual
-            valores_disciplina = notas_df_aluno1[disciplina].tolist()
-
-            # Filtrar apenas valores não nulos
-            valores_nao_nulos.extend([valor for valor in valores_disciplina if not pd.isna(valor)])
-
-        # Criar o gráfico
+        # Cria o gráfico
         fig = go.Figure()
-        fig.add_trace(go.Bar(x=disciplinas, y=valores_nao_nulos, name='1º Bimestre', text=valores_nao_nulos, textposition='auto'))
+        fig.add_trace(go.Bar(x=disciplinas, y=notas_aluno1, name='1º Bimestre', text=notas_aluno1, textposition='auto'))
 
-        # Exibir o gráfico
+        # Exibe o gráfico
         st.plotly_chart(fig, use_container_width=True)
         st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
 
