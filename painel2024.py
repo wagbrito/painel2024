@@ -43,6 +43,7 @@ with st.sidebar:
         tutorado = st.selectbox('Selecione o(a) tutorado(a)', alunos_do_tutor)
 
 # Verifica se um tutorado foi selecionado
+# Verifica se um tutorado foi selecionado
 if 'tutorado' in locals():
     st.title("NOTAS - TUTORADO(A)")
     
@@ -58,6 +59,13 @@ if 'tutorado' in locals():
     # Substitua os valores nulos por NaN
     df1.replace("", np.nan, inplace=True)
     df1.replace(" ", np.nan, inplace=True)
+
+    # Imprime os valores únicos em cada coluna do DataFrame
+    for col in df1.columns:
+        print(f"{col}: {df1[col].unique()}")
+
+    # Remove as linhas com valores nulos
+    df1.dropna(subset=disciplinas, inplace=True)
 
     # Verifica se há valores não nulos para cada disciplina do aluno atual
     for disciplina in disciplinas:
@@ -76,6 +84,7 @@ if 'tutorado' in locals():
         # Exibe o gráfico
         st.plotly_chart(fig)
         st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
+
 
 
     # Resultado da Prova Paulista
