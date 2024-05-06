@@ -50,9 +50,9 @@ if 'tutorado' in locals():
     st.title("NOTAS - TUTORADO(A)")
     
 #Notas Gerais
-    notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, ['Por1', 'Ing1', 'EF1', 'Art1', 'Geo1', 'His1', 'Mat1', 'Cie1', 'Pe1', 'Pv1', 'Oe1', 'Tec1']]
+    notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, ['LP1', 'Ing1', 'EF1', 'Art1', 'Geo1', 'His1', 'Mat1', 'Cie1', 'Pe1', 'Pv1', 'Oe1', 'Tec1']]
     notas_aluno1 = notas_df_aluno1.values.tolist()[0]
-    notas_df_aluno2 = df1.loc[df1['Aluno'] == tutorado, ['Por2', 'Ing2', 'EF2', 'Art2', 'Geo2', 'His2', 'Mat2', 'Cie2', 'Pe2', 'Pv2', 'Oe2', 'Tec2']]
+    notas_df_aluno2 = df1.loc[df1['Aluno'] == tutorado, ['LP2', 'Ing2', 'EF2', 'Art2', 'Geo2', 'His2', 'Mat2', 'Cie2', 'Pe2', 'Pv2', 'Oe2', 'Tec2']]
     notas_aluno2 = notas_df_aluno2.values.tolist()[0]
     disciplinas = ['Português', 'Inglês', 'Educação Física', 'Arte', 'Geografia', 'História', 'Matemática', 'Ciência', 'Práticas Experimentais', 'Projeto de Vida', 
                    'Orientação de Estudos', 'Tecnologia']
