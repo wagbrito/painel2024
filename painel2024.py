@@ -46,7 +46,7 @@ with st.sidebar:
 
 
 if 'tutorado' in locals():
-    st.title("NOTAS - TUTORADO(A)")
+    st.title("NOTAS - TUTORADO(A) - 2024")
 
     # Obter todas as disciplinas disponíveis
     disciplinas_disponiveis = df1.columns[df1.columns.str.contains('\d+$')].tolist()
