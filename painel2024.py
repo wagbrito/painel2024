@@ -48,13 +48,20 @@ if 'tutorado' in locals():
     # Obter todas as disciplinas disponíveis
     disciplinas_disponiveis = df1.columns[df1.columns.str.contains('\d+$')].tolist()
     
-    # Filtrar apenas as disciplinas presentes no DataFrame do aluno e que possuem valores não nulos
-    disciplinas_com_valores = [disciplina for disciplina in disciplinas_disponiveis if (disciplina in df1.columns) and df1[disciplina].notnull().any()]
+    # Filtrar apenas as disciplinas presentes no DataFrame do aluno
+    disciplinas = [disciplina for disciplina in disciplinas_disponiveis if disciplina in df1.columns]
 
-    if disciplinas_com_valores:
-        # Filtrar as notas do aluno atual
-        notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, disciplinas_com_valores]
-        notas_aluno1 = notas_df_aluno1.values.tolist()[0]
+    # Cria um DataFrame temporário contendo apenas as disciplinas com valores não nulos para o aluno atual
+    dados_grafico = pd.DataFrame()
+    for disciplina in disciplinas:
+        notas_disciplina = df1.loc[df1['Aluno'] == tutorado, disciplina]
+        if notas_disciplina.notnull().any():
+            dados_grafico[disciplina] = notas_disciplina
+
+    if not dados_grafico.empty:
+        # Extrai os nomes das disciplinas e as notas do DataFrame temporário
+        disciplinas_com_valores = dados_grafico.columns.tolist()
+        notas_aluno1 = dados_grafico.values[0]
 
         # Cria o gráfico
         fig = go.Figure()
@@ -63,6 +70,7 @@ if 'tutorado' in locals():
         # Exibe o gráfico
         st.plotly_chart(fig)
         st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
+
 
     # Resultado da Prova Paulista
     st.title("PROVA PAULISTA - 2024")
