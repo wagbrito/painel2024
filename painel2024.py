@@ -42,9 +42,7 @@ with st.sidebar:
         # Adiciona o selectbox do tutorado à segunda coluna
         tutorado = st.selectbox('Selecione o(a) tutorado(a)', alunos_do_tutor)
 
-# Verifica se um tutorado foi selecionado
-# Verifica se um tutorado foi selecionado
-# Verifica se um tutorado foi selecionado
+
 if 'tutorado' in locals():
     st.title("NOTAS - TUTORADO(A)")
     
