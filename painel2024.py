@@ -54,8 +54,7 @@ if 'tutorado' in locals():
     # Imprimir as disciplinas e seus valores associados para o aluno atual
     for disciplina in disciplinas:
         notas_disciplina = df1.loc[df1['Aluno'] == tutorado, disciplina]
-        st.write(f"{disciplina}: {notas_disciplina.values.tolist()}")
-
+        
         # Cria o gráfico
         fig = go.Figure()
         fig.add_trace(go.Bar(x=disciplinas_com_valores, y=notas_aluno1, name='1º Bimestre', text=notas_aluno1, textposition='auto'))
