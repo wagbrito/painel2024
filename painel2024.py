@@ -3,7 +3,6 @@ import streamlit as st
 import gspread
 import plotly.express as px
 import plotly.graph_objects as go
-import numpy as np
 
 #Título no navegador
 st.set_page_config(page_title = "Painel - PEI Paula Santos", page_icon=':bar_chart:', layout="wide") 
@@ -49,13 +48,13 @@ with st.sidebar:
 if 'tutorado' in locals():
     st.title("NOTAS - TUTORADO(A)")
     
-#Notas Gerais
+    # Notas Gerais
     notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, ['LP1', 'Ing1', 'EF1', 'Art1', 'Geo1', 'His1', 'Mat1', 'Cie1', 'Pe1', 'Pv1', 'Oe1', 'Tec1']]
     notas_aluno1 = notas_df_aluno1.values.tolist()[0]
-    disciplinas = ['Português', 'Inglês', 'Educação Física', 'Arte', 'Geografia', 'História', 'Matemática', 'Ciência', 'Práticas Experimentais', 'Projeto de Vida', 
-                   'Orientação de Estudos', 'Tecnologia']
+    colunas = notas_df_aluno1.columns.tolist()
+    
     fig = go.Figure()
-    fig.add_trace(go.Bar(x=disciplinas, y=notas_aluno1, name='1º Bimestre'))
+    fig.add_trace(go.Bar(x=colunas, y=notas_aluno1, name='1º Bimestre'))
 
     # Exibe o gráfico
     st.plotly_chart(fig, use_container_width=True)
