@@ -57,7 +57,7 @@ if 'tutorado' in locals():
         
         # Cria o gráfico
         fig = go.Figure()
-        fig.add_trace(go.Bar(x=disciplinas, y=notas_aluno1, name='1º Bimestre', text=notas_aluno1, textposition='auto'))
+        fig.add_trace(go.Bar(x=disciplinas, y=notas_disciplina.values.tolist(), name='1º Bimestre', text=notas_disciplina.values.tolist(), textposition='auto'))
 
         # Exibe o gráfico
         st.plotly_chart(fig)
