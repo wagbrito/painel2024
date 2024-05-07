@@ -21,12 +21,14 @@ sheet_name2 = 'PP'
 sheet2 = client.open('Painel2024').worksheet(sheet_name2)
 
 # Transformando a planilha em um DataFrame
-df1 = pd.DataFrame(sheet1.get_all_records())
-df2 = pd.DataFrame(sheet2.get_all_records())
+registros1 = sheet1.get_all_records()
+registros2 = sheet2.get_all_records()
+df1 = pd.DataFrame(registros1).replace('', pd.NA)
+df2 = pd.DataFrame(registros2).replace('', pd.NA)
 
 # Lista de tutores únicos
-tutores_unicos_df1 = sorted(df1['Tutor'].unique())
-tutores_unicos_df2 = sorted(df2['Tutor'].unique())
+tutores_unicos_df1 = sorted(df1['Tutor'].dropna().unique())
+tutores_unicos_df2 = sorted(df2['Tutor'].dropna().unique())
 tutores_unicos = sorted(set(tutores_unicos_df1).union(tutores_unicos_df2))
 
 #sidebar
@@ -34,7 +36,7 @@ with st.sidebar:
     st.write("Paula Santos")
 
     # Adiciona o selectbox do tutor à primeira coluna
-    tutor = st.selectbox('Selecione o(a) tutor(a)', tutores_unicos)
+    tutor = st.selectbox('Selecione o(a) tutor(a)', [''] + tutores_unicos)
 
     # Verifica se um tutor foi selecionado
     if tutor:
@@ -42,31 +44,40 @@ with st.sidebar:
         alunos_do_tutor = sorted(df1.loc[df1['Tutor'] == tutor]['Aluno'])
 
         # Adiciona o selectbox do tutorado à segunda coluna
-        tutorado = st.selectbox('Selecione o(a) tutorado(a)', alunos_do_tutor)
+        tutorado = st.selectbox('Selecione o(a) tutorado(a)', [''] + alunos_do_tutor)
 
 
 if 'tutorado' in locals():
     st.title("NOTAS - TUTORADO(A)")
-    
+        
     # Obter todas as disciplinas disponíveis
     disciplinas_disponiveis = df1.columns[df1.columns.str.contains('\d+$')].tolist()
-    
+        
     # Filtrar apenas as disciplinas presentes no DataFrame do aluno
     disciplinas = [disciplina for disciplina in disciplinas_disponiveis if disciplina in df1.columns]
 
     if disciplinas:
-        # Filtrar as notas do aluno atual
         notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, disciplinas]
-        notas_aluno1 = notas_df_aluno1.values.tolist()[0]
+            
+        disciplinas_com_notas = [coluna for coluna in notas_df_aluno1.columns if notas_df_aluno1[coluna].notnull().any()]
 
-        # Cria o gráfico
-        fig = go.Figure()
-        fig.add_trace(go.Bar(x=disciplinas, y=notas_aluno1, name='1º Bimestre', text=notas_aluno1, textposition='auto'))
+        if disciplinas_com_notas:
+            notas_aluno1 = notas_df_aluno1[disciplinas_com_notas].values.tolist()[0]
 
-        # Exibe o gráfico
-        st.plotly_chart(fig, use_container_width=True)
-        st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
+            fig = go.Figure()
+            for disciplina in disciplinas_com_notas:
+            # Definindo a cor com base no sufixo numérico
+                valor_barra = notas_aluno1[disciplinas_com_notas.index(disciplina)]
+                cor = 'blue' if disciplina.endswith('1') else 'red'
+                fig.add_trace(go.Bar(x=[disciplina], y=[notas_aluno1[disciplinas_com_notas.index(disciplina)]], marker_color=cor, text=[valor_barra], textposition='auto'))
+                fig.update_layout(showlegend=False)
 
+
+            st.plotly_chart(fig, use_container_width=True)
+            st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
+        else:
+            st.write("Não há notas disponíveis para o tutorado selecionado.")
+    
     # Resultado da Prova Paulista
     st.title("PROVA PAULISTA - 2024")
     
