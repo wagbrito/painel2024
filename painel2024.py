@@ -1,107 +1,48 @@
-import pandas as pd
 import streamlit as st
-import gspread
-import plotly.express as px
-import plotly.graph_objects as go
+from streamlit_option_menu import option_menu
+from notas import exibir_notas
+from diarios import exibir_diarios
+from salas import exibir_salas
+
 
 #Título no navegador
 st.set_page_config(page_title = "Painel - PEI Paula Santos", page_icon=':bar_chart:', layout="wide") 
 
-# Acessando as credenciais do secrets.toml
-creds = st.secrets["gcp"]
-
-# Set up credentials to access Google Sheets API
-scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-client = gspread.service_account_from_dict(creds)
-
-# Acessando a planilha Google
-sheet_name1 = 'Notas'
-sheet1 = client.open('Painel2024').worksheet(sheet_name1)
-sheet_name2 = 'PP'
-sheet2 = client.open('Painel2024').worksheet(sheet_name2)
-
-# Transformando a planilha em um DataFrame
-registros1 = sheet1.get_all_records()
-registros2 = sheet2.get_all_records()
-df1 = pd.DataFrame(registros1).replace('', pd.NA)
-df2 = pd.DataFrame(registros2).replace('', pd.NA)
-
-# Lista de tutores únicos
-tutores_unicos_df1 = sorted(df1['Tutor'].dropna().unique())
-tutores_unicos_df2 = sorted(df2['Tutor'].dropna().unique())
-tutores_unicos = sorted(set(tutores_unicos_df1).union(tutores_unicos_df2))
-
-#sidebar
 with st.sidebar:
-    st.write("Paula Santos")
+    selected = option_menu(
+        menu_title="Principal",
+        options=['Principal', 'Notas', 'Diários', 'Salas'],
+    )
 
-    # Adiciona o selectbox do tutor à primeira coluna
-    tutor = st.selectbox('Selecione o(a) tutor(a)', [''] + tutores_unicos)
+if selected == "Principal":
+    # Título
+    st.title("Painel da PEI Paula Santos")
 
-    # Verifica se um tutor foi selecionado
-    if tutor:
-        # Filtra os dados com base na seleção do tutor
-        alunos_do_tutor = sorted(df1.loc[df1['Tutor'] == tutor]['Aluno'])
+    # Conteúdo
+    st.write(
+        """
+        Esse painel foi criado com o objetivo de facilitar algumas informações sobre os alunos e alunas da escola PEI
+        Professor Paula Santos, da cidade de Salto (SP). As opções que aparecem na barra lateral possuem informações que
+        ajudam a entender o desempenho acadêmico do corpo discente e construir estratégias de acordo com as premissas da PEI.
+        """
+    )
 
-        # Adiciona o selectbox do tutorado à segunda coluna
-        tutorado = st.selectbox('Selecione o(a) tutorado(a)', [''] + alunos_do_tutor)
-
-
-if 'tutorado' in locals():
-    st.title("NOTAS - TUTORADO(A)")
-        
-    # Obter todas as disciplinas disponíveis
-    disciplinas_disponiveis = df1.columns[df1.columns.str.contains('\d+$')].tolist()
-        
-    # Filtrar apenas as disciplinas presentes no DataFrame do aluno
-    disciplinas = [disciplina for disciplina in disciplinas_disponiveis if disciplina in df1.columns]
-
-    if disciplinas:
-        notas_df_aluno1 = df1.loc[df1['Aluno'] == tutorado, disciplinas]
-            
-        disciplinas_com_notas = [coluna for coluna in notas_df_aluno1.columns if notas_df_aluno1[coluna].notnull().any()]
-
-        if disciplinas_com_notas:
-            notas_aluno1 = notas_df_aluno1[disciplinas_com_notas].values.tolist()[0]
-
-            fig = go.Figure()
-            for disciplina in disciplinas_com_notas:
-            # Definindo a cor com base no sufixo numérico
-                valor_barra = notas_aluno1[disciplinas_com_notas.index(disciplina)]
-                cor = 'blue' if disciplina.endswith('1') else 'red'
-                fig.add_trace(go.Bar(x=[disciplina], y=[notas_aluno1[disciplinas_com_notas.index(disciplina)]], marker_color=cor, text=[valor_barra], textposition='auto'))
-                fig.update_layout(showlegend=False)
+    st.subheader('Dados')
+    st.write(
+        """
+        Todas as informações desse painel são obtidas através do Google Planilhas, no modo leitura. Dessa forma não existe a possibilidade
+        de qualquer dado ser modificado através desse painel.
+        """
+    )
+ 
+if selected == "Notas":
+    exibir_notas()
+if selected == 'Diários':
+    exibir_diarios()
+if selected == "Salas":
+    exibir_salas()
 
 
-            st.plotly_chart(fig, use_container_width=True)
-            st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
-        else:
-            st.write("Não há notas disponíveis para o tutorado selecionado.")
-    
-    # Resultado da Prova Paulista
-    st.title("PROVA PAULISTA - 2024")
-    
-    prova_paulista1 = df2.loc[df2['Aluno'] == tutorado, ['LP1', 'Ing1', 'Mat1', 'Cie1', 'Geo1', 'His1','Bio1','Qui1','Fis1','Fil1','Fin1']]
-    pp1 = prova_paulista1.values.tolist()[0]
-
-    # Nomes das colunas
-    nomes_colunas = ['Português (LP1)', 'Inglês (Ing1)', 'Matemática (Mat1)', 'Ciências (Cie1)', 'Geografia (Geo1)', 'História (His1)',
-                     'Biologia (Bio1)','Quimica (Qui1)','Física (Fis1)','Filosofia (Fil1)','Ed. Financeira (Fin1)']
-
-    # Divide a tela em duas colunas
-    col1, col2 = st.columns(2)
-
-    # Exibe as notas da Prova Paulista com os nomes das colunas na primeira coluna
-    for i in range(len(pp1)//2):  # Divida o comprimento por 2 para exibir metade das disciplinas em cada coluna
-        col1.write(nomes_colunas[i] + ": " + str(pp1[i]))
-
-    # Exibe as notas restantes da Prova Paulista com os nomes das colunas na segunda coluna
-    for i in range(len(pp1)//2, len(pp1)):  # Exibe a segunda metade das disciplinas na segunda coluna
-        col2.write(nomes_colunas[i] + ": " + str(pp1[i]))
-
-else:
-    st.title("PAINEL DE NOTAS PEI PAULA SANTOS - 2024")  # Mensagem de aviso quando nenhum tutor é selecionado
-    st.write("Escolha o tutor no menu ao lado para aparecer as informações sobre os alunos")
 
       
 

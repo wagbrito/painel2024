@@ -1,4 +1,5 @@
 streamlit
+streamlit_option_menu
 st-gsheets-connection
 pandas
 gspread
