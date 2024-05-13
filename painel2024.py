@@ -31,7 +31,7 @@ if selected == "Principal":
     st.write(
         """
         Todas as informações desse painel são obtidas através do Google Planilhas, no modo leitura. Dessa forma não existe a possibilidade
-        de qualquer dado ser modificado através desse painel.
+        de qualquer dado ser modificado através desse painel. As informaçções são atualizadas uma vez por dia.
         """
     )
  
