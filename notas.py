@@ -71,9 +71,6 @@ def exibir_notas():
             if disciplinas_com_notas:
                 notas_aluno1 = notas_df_aluno1[disciplinas_com_notas].values.tolist()[0]
 
-                # Calcular a média das notas para cada disciplina
-                medias_notas = notas_df_aluno1.mean().to_dict()
-
                 fig = go.Figure()
                 # Loop sobre as disciplinas
                 for disciplina in disciplinas_com_notas:
@@ -96,8 +93,6 @@ def exibir_notas():
                 # Exibir o gráfico no Streamlit
                 st.plotly_chart(fig, use_container_width=True)
                 st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
-                for disciplina, media in medias_notas.items():
-                    st.write(f"Disciplina: {disciplina}, Média: {media:.2f}")
             else:
                 st.write("Não há notas disponíveis para o tutorado selecionado.")
 
