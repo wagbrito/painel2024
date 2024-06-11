@@ -96,12 +96,13 @@ def exibir_notas():
                 # Exibir o gráfico no Streamlit
                 st.plotly_chart(fig, use_container_width=True)
                 st.write("Para entender o gráfico: a disciplina está abreviada e o número indica qual é o bimestre")
+                for disciplina, media in medias_notas.items():
+                    st.write(f"Disciplina: {disciplina}, Média: {media:.2f}")
             else:
                 st.write("Não há notas disponíveis para o tutorado selecionado.")
 
                 # Exibir as médias das notas para cada disciplina
-                for disciplina, media in medias_notas.items():
-                 st.write(f"Disciplina: {disciplina}, Média: {media:.2f}")
+
         
         # Resultado da Prova Paulista
         st.title("PROVA PAULISTA")
