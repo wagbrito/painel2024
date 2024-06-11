@@ -99,9 +99,9 @@ def exibir_notas():
             else:
                 st.write("Não há notas disponíveis para o tutorado selecionado.")
 
-        # Exibir as médias das notas para cada disciplina
-        for disciplina, media in medias_notas.items():
-            st.write(f"Disciplina: {disciplina}, Média: {media:.2f}")
+                # Exibir as médias das notas para cada disciplina
+                for disciplina, media in medias_notas.items():
+                 st.write(f"Disciplina: {disciplina}, Média: {media:.2f}")
         
         # Resultado da Prova Paulista
         st.title("PROVA PAULISTA")
