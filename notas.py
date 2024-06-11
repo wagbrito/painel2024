@@ -71,8 +71,8 @@ def exibir_notas():
             if disciplinas_com_notas:
                 notas_aluno1 = notas_df_aluno1[disciplinas_com_notas].values.tolist()[0]
 
-            # Calcular a média das notas para cada disciplina
-            medias_notas = notas_df_aluno1.mean().to_dict()
+                # Calcular a média das notas para cada disciplina
+                medias_notas = notas_df_aluno1.mean().to_dict()
 
                 fig = go.Figure()
                 # Loop sobre as disciplinas
