@@ -1,7 +1,6 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from notas import exibir_notas
-from diarios import exibir_diarios
 from salas import exibir_salas
 
 
@@ -11,7 +10,7 @@ st.set_page_config(page_title = "Painel - PEI Paula Santos", page_icon=':bar_cha
 with st.sidebar:
     selected = option_menu(
         menu_title="Principal",
-        options=['Principal', 'Notas', 'Diários', 'Salas'],
+        options=['Principal', 'Notas', 'Salas'],
     )
 
 if selected == "Principal":
@@ -38,8 +37,6 @@ if selected == "Principal":
  
 if selected == "Notas":
     exibir_notas()
-if selected == 'Diários':
-    exibir_diarios()
 if selected == "Salas":
     exibir_salas()
 
