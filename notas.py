@@ -73,18 +73,18 @@ def exibir_notas():
 
                 fig = go.Figure()
                 # Loop sobre as disciplinas
-                    for disciplina in disciplinas_com_notas:
-                        # Definindo a cor com base no sufixo numérico
-                        valor_barra = notas_aluno1[disciplinas_com_notas.index(disciplina)]
-                        
-                        if disciplina.endswith('1'):
-                            cor = 'blue'
-                        elif disciplina.endswith('2'):  # Nova condição para a cor verde
-                            cor = 'red'
-                        else:
-                            cor = 'green'
+                for disciplina in disciplinas_com_notas:
+                    # Definindo a cor com base no sufixo numérico
+                    valor_barra = notas_aluno1[disciplinas_com_notas.index(disciplina)]
                     
-                        fig.add_trace(go.Bar(x=[disciplina], y=[valor_barra], marker_color=cor, text=[valor_barra], textposition='auto'))
+                    if disciplina.endswith('1'):
+                        cor = 'blue'
+                    elif disciplina.endswith('2'):  # Nova condição para a cor verde
+                        cor = 'red'
+                    else:
+                        cor = 'green'
+                
+                    fig.add_trace(go.Bar(x=[disciplina], y=[valor_barra], marker_color=cor, text=[valor_barra], textposition='auto'))
 
 
                 # Atualizar layout para desabilitar todas as opções interativas e travar o gráfico
