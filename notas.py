@@ -89,7 +89,7 @@ def exibir_notas():
 
                 # Atualizar layout para desabilitar todas as opções interativas e travar o gráfico
                 fig.update_layout(
-                    showlegend=True,
+                    showlegend=False,
                     xaxis={"fixedrange": True},  # Travar eixo X
                     yaxis={"fixedrange": True},  # Travar eixo Y
                     margin={"l": 0, "r": 0, "t": 0, "b": 0},  # Remover margens
